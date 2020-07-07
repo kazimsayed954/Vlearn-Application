@@ -65,20 +65,22 @@ public class ContinueCourseAdapter extends RecyclerView.Adapter<ContinueCourseAd
         holder.courseNameTv.setText(course.getNameOfCourse());
 
         if(course.getImgPath() != null) {
-            StorageReference imageReference = storage.getReference().child(course.getImgPath());
-            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Glide.with(context.getApplicationContext())
-                            .load(uri)
-                            .into(holder.courseImage);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Log.d("Course Image", exception.getMessage());
-                }
-            });
+            if(!course.getImgPath().isEmpty()){
+                StorageReference imageReference = storage.getReference().child(course.getImgPath());
+                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(context.getApplicationContext())
+                                .load(uri)
+                                .into(holder.courseImage);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("Course Image", exception.getMessage());
+                    }
+                });
+            }
         }
 
     }

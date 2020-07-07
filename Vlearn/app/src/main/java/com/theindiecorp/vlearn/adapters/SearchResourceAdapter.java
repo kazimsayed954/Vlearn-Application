@@ -34,7 +34,7 @@ public class SearchResourceAdapter extends RecyclerView.Adapter<SearchResourceAd
 
         public MyViewHolder(View v){
             super(v);
-            courseImage = v.findViewById(R.id.course_name_tv);
+            courseNameTv = v.findViewById(R.id.course_name_tv);
             publisherNameTv = v.findViewById(R.id.progress_tv);
             courseImage = v.findViewById(R.id.course_image);
         }

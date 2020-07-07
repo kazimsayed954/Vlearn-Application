@@ -74,20 +74,22 @@ public class LatestCourseAdapter extends RecyclerView.Adapter<LatestCourseAdapte
         holder.publishDate.setText( "Uploaded at :" + course.getPublishDate());
 
         if(course.getImgPath() != null) {
-            StorageReference imageReference = storage.getReference().child(course.getImgPath());
-            imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Glide.with(context.getApplicationContext())
-                            .load(uri)
-                            .into(holder.courseImg);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Log.d("Course Image", exception.getMessage());
-                }
-            });
+            if(!course.getImgPath().isEmpty()){
+                StorageReference imageReference = storage.getReference().child(course.getImgPath());
+                imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(context.getApplicationContext())
+                                .load(uri)
+                                .into(holder.courseImg);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("Course Image", exception.getMessage());
+                    }
+                });
+            }
         }
 
         databaseReference.child("users").child(course.getAuthorId()).child("displayName").addValueEventListener(new ValueEventListener() {

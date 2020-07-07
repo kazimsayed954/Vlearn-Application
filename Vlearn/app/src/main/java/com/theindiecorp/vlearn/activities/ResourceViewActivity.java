@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -14,6 +15,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
@@ -23,12 +29,14 @@ import com.theindiecorp.vlearn.adapters.TopicsListAdapter;
 import com.theindiecorp.vlearn.data.Course;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 public class ResourceViewActivity extends AppCompatActivity {
 
     FirebaseFirestore database = FirebaseFirestore.getInstance();
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,43 +74,37 @@ public class ResourceViewActivity extends AppCompatActivity {
             }
         });
 
-        database.collection("courses").document(courseId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        databaseReference.child("courseTopics").child(courseId).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(!task.isSuccessful()){
-                    Toast.makeText(ResourceViewActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> topics = new ArrayList<>();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    topics.add(snapshot.getValue(String.class));
                 }
-                else{
-                    Map<String, Object> map = task.getResult().getData();
-                    Gson gson = new Gson();
-                    JsonElement jsonElement = gson.toJsonTree(map);
-                    Course course = gson.fromJson(jsonElement, Course.class);
-                    categoryTv.setText(course.getCategory());
-                    courseNameTv.setText(course.getNameOfCourse());
-                    enrollmentTv.setText(course.getEnrollmentNo() + " students");
-                    descriptionTv.setText(course.getCourseDescription());
-                    keyPointsTv.setText(course.getKeyPoints());
-                }
+                topicsListAdapter.setTopics(topics);
+                topicsListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
-        database.collection("courseTopics").document(courseId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        databaseReference.child("courses").child(courseId).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(!task.isSuccessful()){
-                    Toast.makeText(ResourceViewActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    ArrayList<String> topics = new ArrayList<>();
-                    Toast.makeText(ResourceViewActivity.this, "Found", Toast.LENGTH_SHORT).show();
-                    Map<String, Object> map = task.getResult().getData();
-                    Set<Map.Entry<String, Object> > st = map.entrySet();
-                    for (Map.Entry<String, Object> me : st){
-                        topics.add(me.getValue().toString());
-                    }
-                    topicsListAdapter.setTopics(topics);
-                    topicsListAdapter.notifyDataSetChanged();
-                }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Course course = dataSnapshot.getValue(Course.class);
+                categoryTv.setText(course.getCategory());
+                courseNameTv.setText(course.getNameOfCourse());
+                enrollmentTv.setText(course.getEnrollmentNo() + " students");
+                descriptionTv.setText(course.getCourseDescription());
+                keyPointsTv.setText(course.getKeyPoints());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

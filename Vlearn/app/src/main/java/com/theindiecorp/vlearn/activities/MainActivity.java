@@ -20,6 +20,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -36,12 +40,13 @@ import com.theindiecorp.vlearn.adapters.LatestCourseAdapter;
 import com.theindiecorp.vlearn.data.Course;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN ACTIVITY";
-    FirebaseFirestore database = FirebaseFirestore.getInstance();
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,24 +75,24 @@ public class MainActivity extends AppCompatActivity {
         final LatestCourseAdapter latestCourseAdapter = new LatestCourseAdapter(this, new ArrayList<Course>());
         latestCourseList.setAdapter(latestCourseAdapter);
 
-        database.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        databaseReference.child("courses").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
                     ArrayList<Course> courses = new ArrayList<>();
-                    for(QueryDocumentSnapshot document : task.getResult()){
-                        Map<String, Object> map = document.getData();
-                        Gson gson = new Gson();
-                        JsonElement jsonElement = gson.toJsonTree(map);
-                        Course course = gson.fromJson(jsonElement, Course.class);
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        Course course = snapshot.getValue(Course.class);
                         courses.add(course);
                     }
+                    Collections.reverse(courses);
                     latestCourseAdapter.setCourses(courses);
                     latestCourseAdapter.notifyDataSetChanged();
                 }
-                else{
-                    Log.d(TAG, "onComplete: Failed");
-                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -98,31 +103,28 @@ public class MainActivity extends AppCompatActivity {
         final ContinueCourseAdapter continueCourseAdapter = new ContinueCourseAdapter(this, new ArrayList<Course>());
         continueRecycler.setAdapter(continueCourseAdapter);
 
-        database.collection("studyingCourses");
-        database.collection(auth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        databaseReference.child("studyingCourses").child(auth.getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    if(!task.getResult().getDocuments().isEmpty()){
-                        continueLayout.setVisibility(View.VISIBLE);
-                        ArrayList<Course> courses = new ArrayList<>();
-                        for(QueryDocumentSnapshot document : task.getResult()){
-                            Map<String, Object> map = document.getData();
-                            Gson gson = new Gson();
-                            JsonElement jsonElement = gson.toJsonTree(map);
-                            Course course = gson.fromJson(jsonElement, Course.class);
-                            courses.add(course);
-                        }
-                        continueCourseAdapter.setCourses(courses);
-                        continueCourseAdapter.notifyDataSetChanged();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    ArrayList<Course> courses = new ArrayList<>();
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        Course course = snapshot.getValue(Course.class);
+                        courses.add(course);
                     }
-                    else{
-                        continueLayout.setVisibility(View.GONE);
-                    }
+                    Collections.reverse(courses);
+                    continueCourseAdapter.setCourses(courses);
+                    continueCourseAdapter.notifyDataSetChanged();
                 }
                 else{
-                    Log.d(TAG, "onComplete: Failed");
+                    continueLayout.setVisibility(View.GONE);
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
