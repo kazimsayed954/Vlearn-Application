@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView topicTv;
-        private ProgressBar progressBar;
+        private ImageView progressBar;
 
         public MyViewHolder(View itemView){
             super(itemView);
@@ -52,7 +53,6 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String topic = dataSet.get(position);
         holder.topicTv.setText(topic);
-        holder.progressBar.setProgress(100);
     }
 
     @Override
