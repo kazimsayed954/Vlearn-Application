@@ -6,7 +6,6 @@
         android:id="@+id/log_out_item"
         android:title="Log Out"
         android:icon="@drawable/ic_baseline_power_settings_new_24"
-        app:showAsAction="always"
-        android:iconTint="@android:color/black"/>
+        app:showAsAction="always"/>
 
 </menu>

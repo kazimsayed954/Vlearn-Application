@@ -48,10 +48,13 @@
                     android:layout_alignParentTop="true">
 
                     <ImageView
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:src="@drawable/logo"
-                        android:layout_margin="12dp"/>
+                        android:layout_margin="12dp"
+                        android:scaleType="fitCenter"
+                        android:layout_gravity="center"
+                        android:padding="18dp"/>
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email"

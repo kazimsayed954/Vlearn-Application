@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +39,7 @@ public class ResourceViewActivity extends AppCompatActivity {
 
     FirebaseFirestore database = FirebaseFirestore.getInstance();
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class ResourceViewActivity extends AppCompatActivity {
         final TextView enrollmentTv = findViewById(R.id.enrollment_number_tv);
         final TextView descriptionTv = findViewById(R.id.course_description_tv);
         final TextView keyPointsTv = findViewById(R.id.key_points_tv);
+        final Button getCourseBtn = findViewById(R.id.get_course_btn);
 
         final String courseId = getIntent().getStringExtra("courseId");
 
@@ -92,7 +95,7 @@ public class ResourceViewActivity extends AppCompatActivity {
             }
         });
 
-        databaseReference.child("courses").child(courseId).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("courses").child(courseId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Course course = dataSnapshot.getValue(Course.class);
@@ -109,10 +112,38 @@ public class ResourceViewActivity extends AppCompatActivity {
             }
         });
 
-        Button getCourseBtn = findViewById(R.id.get_course_btn);
+        databaseReference.child("studyingCourses").child(userId).child(courseId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    getCourseBtn.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         getCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                subscribeCourse(courseId);
+            }
+        });
+    }
+
+    private void subscribeCourse(final String courseId){
+        databaseReference.child("courses").child(courseId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Course course = dataSnapshot.getValue(Course.class);
+                databaseReference.child("studyingCourses").child(userId).child(courseId).setValue(course);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
