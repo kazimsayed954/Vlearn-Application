@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name=".activities.ResourceViewActivity"/>
+        <activity android:name=".activities.SubscribedCourseActivity"></activity>
+        <activity android:name=".activities.ResourceViewActivity" />
         <activity android:name=".activities.SearchActivity" />
         <activity android:name=".activities.ResetPasswordActivity" />
         <activity android:name=".activities.SignUpActivity" />
