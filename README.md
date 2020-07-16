@@ -38,20 +38,17 @@ Interested in research? Well, you're in luck. Vlearn provides a wide collection 
  ---
  * [Microsoft Student learn ambassador program](https://studentambassadors.microsoft.com/en-us)
  * [Incubate IND](incubateind.com)
- * [github](github.com)
+ * [GitHub](github.com)
 
   
  ---
 >## For further details
 ---
-* youtube channel
+* Youtube channel
    * [Vlearn program](https://www.youtube.com/channel/UCJybzDpvFnxaNQMv0jjEpaA)
    
-* twitter 
+* Twitter 
    * [Vlearn program](https://twitter.com/vlearnprogram) 
 
 ---
->**ASSOCIATED WITH**
----
-
-![Associated with](https://www.theindiecorp.com/uploads/1/2/0/1/120194425/published/msp.png?1591676945)
+ 
