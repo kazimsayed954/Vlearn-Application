@@ -6,6 +6,7 @@
 
  ---
  >## About the app 
+ ---
 
  **INTUITIVE USER INTERFACE**
 
@@ -50,5 +51,6 @@ Interested in research? Well, you're in luck. Vlearn provides a wide collection 
 
 ---
 **ASSOCIATED WITH**
+---
 
 ![Associated with](https://www.theindiecorp.com/uploads/1/2/0/1/120194425/published/msp.png?1591676945)
