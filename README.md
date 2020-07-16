@@ -43,6 +43,7 @@ Interested in research? Well, you're in luck. Vlearn provides a wide collection 
   
  ---
 >## For further details
+---
 * youtube channel
    * [Vlearn program](https://www.youtube.com/channel/UCJybzDpvFnxaNQMv0jjEpaA)
    
@@ -50,7 +51,7 @@ Interested in research? Well, you're in luck. Vlearn provides a wide collection 
    * [Vlearn program](https://twitter.com/vlearnprogram) 
 
 ---
-**ASSOCIATED WITH**
+>**ASSOCIATED WITH**
 ---
 
 ![Associated with](https://www.theindiecorp.com/uploads/1/2/0/1/120194425/published/msp.png?1591676945)
