@@ -29,6 +29,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <ImageView
+                        android:id="@+id/course_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:src="@drawable/ic_pencil_holder"
+                        android:layout_gravity="center|top"/>
+
                     <ImageButton
                         android:id="@+id/back_btn"
                         android:layout_width="50dp"
@@ -37,13 +44,6 @@
                         android:background="@android:color/transparent"
                         android:scaleType="centerCrop"
                         android:layout_gravity="top|start"/>
-
-                    <ImageView
-                        android:id="@+id/course_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:src="@drawable/ic_pencil_holder"
-                        android:layout_gravity="center|top"/>
 
                 </FrameLayout>
 
@@ -160,6 +160,18 @@
             android:background="@drawable/blue_button_background"
             android:layout_gravity="center|bottom"
             android:layout_marginBottom="5dp"/>
+
+        <Button
+            android:id="@+id/view_library_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:text="View Course"
+            android:background="@drawable/blue_button_background"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"/>
 
     </androidx.cardview.widget.CardView>
 

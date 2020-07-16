@@ -12,15 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.theindiecorp.vlearn.R;
+import com.theindiecorp.vlearn.data.Topic;
 
 import java.util.ArrayList;
 
 public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.MyViewHolder> {
 
     private Context context;
-    private ArrayList<String> dataSet;
+    private ArrayList<Topic> dataSet;
 
-    public void setTopics(ArrayList<String> dataSet){
+    public void setTopics(ArrayList<Topic> dataSet){
         this.dataSet = dataSet;
     }
 
@@ -35,7 +36,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.My
         }
     }
 
-    public TopicsListAdapter(Context context, ArrayList<String> dataSet){
+    public TopicsListAdapter(Context context, ArrayList<Topic> dataSet){
         this.context = context;
         this.dataSet = dataSet;
     }
@@ -51,8 +52,8 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String topic = dataSet.get(position);
-        holder.topicTv.setText(topic);
+        Topic topic = dataSet.get(position);
+        holder.topicTv.setText(topic.getTitle());
     }
 
     @Override

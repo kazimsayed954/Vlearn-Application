@@ -8,7 +8,25 @@ public class Course {
     private String publishDate, authorId;
     private String courseId, keyPoints;
     private int enrollmentNo;
+    private Boolean isPlayList = false;
     private ArrayList<String> topics;
+    private ArrayList<String> playlistItems;
+
+    public Boolean getPlayList() {
+        return isPlayList;
+    }
+
+    public void setPlayList(Boolean playList) {
+        isPlayList = playList;
+    }
+
+    public ArrayList<String> getPlaylistItems() {
+        return playlistItems;
+    }
+
+    public void setPlaylistItems(ArrayList<String> playlistItems) {
+        this.playlistItems = playlistItems;
+    }
 
     public ArrayList<String> getTopics() {
         return topics;

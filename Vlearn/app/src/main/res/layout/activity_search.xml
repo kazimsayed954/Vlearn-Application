@@ -25,7 +25,7 @@
         android:layout_marginBottom="12dp"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
-        android:background="@drawable/search_box"
+        android:background="@drawable/tab_background"
         app:searchIcon="@drawable/ic_magnifying_glass"
         app:queryHint="Looking For..."/>
 
