@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,9 +25,10 @@ import com.theindiecorp.vlearn.data.Topic;
 
 import java.util.ArrayList;
 
-public class SubscribedCourseActivity extends AppCompatActivity {
+public class SubscribedCourseActivity extends AppCompatActivity implements TopicsListAdapter.RvListener{
 
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private String courseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +40,11 @@ public class SubscribedCourseActivity extends AppCompatActivity {
         final TextView descriptionTv = findViewById(R.id.course_description_tv);
         final TextView keyPointsTv = findViewById(R.id.key_points_tv);
 
-        final String courseId = getIntent().getStringExtra("courseId");
+        courseId = getIntent().getStringExtra("courseId");
 
         RecyclerView topicsRecyclerView = findViewById(R.id.topics_recycler);
         topicsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final TopicsListAdapter topicsListAdapter = new TopicsListAdapter(this, new ArrayList<Topic>());
+        final TopicsListAdapter topicsListAdapter = new TopicsListAdapter(this, new ArrayList<Topic>(), this);
         topicsRecyclerView.setAdapter(topicsListAdapter);
 
         ImageButton backBtn = findViewById(R.id.back_btn);
@@ -129,5 +131,14 @@ public class SubscribedCourseActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void openTopic(int position, String url) {
+        Intent intent = new Intent(this, TopicViewActivity.class);
+        intent.putExtra("courseId", courseId);
+        intent.putExtra("position", position);
+        intent.putExtra("url", url);
+        startActivity(intent);
     }
 }

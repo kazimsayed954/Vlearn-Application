@@ -37,7 +37,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public class ResourceViewActivity extends AppCompatActivity {
+public class ResourceViewActivity extends AppCompatActivity implements TopicsListAdapter.RvListener {
 
     FirebaseFirestore database = FirebaseFirestore.getInstance();
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -61,7 +61,7 @@ public class ResourceViewActivity extends AppCompatActivity {
 
         RecyclerView topicsRecyclerView = findViewById(R.id.recycler_view);
         topicsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final TopicsListAdapter topicsListAdapter = new TopicsListAdapter(this, new ArrayList<Topic>());
+        final TopicsListAdapter topicsListAdapter = new TopicsListAdapter(this, new ArrayList<Topic>(), this);
         topicsRecyclerView.setAdapter(topicsListAdapter);
 
         ImageButton backBtn = findViewById(R.id.back_btn);
@@ -161,5 +161,10 @@ public class ResourceViewActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void openTopic(int position, String url) {
+
     }
 }

@@ -1,6 +1,7 @@
 package com.theindiecorp.vlearn.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.theindiecorp.vlearn.R;
+import com.theindiecorp.vlearn.activities.ResourceViewActivity;
+import com.theindiecorp.vlearn.activities.SubscribedCourseActivity;
 import com.theindiecorp.vlearn.data.Course;
 
 import java.util.ArrayList;
@@ -60,7 +63,7 @@ public class ContinueCourseAdapter extends RecyclerView.Adapter<ContinueCourseAd
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        Course course = dataset.get(position);
+        final Course course = dataset.get(position);
 
         holder.courseNameTv.setText(course.getNameOfCourse());
 
@@ -82,6 +85,14 @@ public class ContinueCourseAdapter extends RecyclerView.Adapter<ContinueCourseAd
                 });
             }
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, SubscribedCourseActivity.class).
+                        putExtra("courseId", course.getCourseId()));
+            }
+        });
 
     }
 

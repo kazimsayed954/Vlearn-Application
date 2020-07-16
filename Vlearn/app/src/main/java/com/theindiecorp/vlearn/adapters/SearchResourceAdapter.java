@@ -1,6 +1,7 @@
 package com.theindiecorp.vlearn.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.theindiecorp.vlearn.R;
+import com.theindiecorp.vlearn.activities.ResourceViewActivity;
 import com.theindiecorp.vlearn.data.Course;
 
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class SearchResourceAdapter extends RecyclerView.Adapter<SearchResourceAd
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        Course course = dataSet.get(position);
+        final Course course = dataSet.get(position);
 
         holder.courseNameTv.setText(course.getNameOfCourse());
 
@@ -70,6 +72,14 @@ public class SearchResourceAdapter extends RecyclerView.Adapter<SearchResourceAd
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, ResourceViewActivity.class).
+                        putExtra("courseId", course.getCourseId()));
             }
         });
     }

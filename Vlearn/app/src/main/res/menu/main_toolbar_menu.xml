@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/profile_item"
-        android:title=""
+        android:title="Profile"
         android:actionLayout="@layout/profile_menu_item"
         app:showAsAction="always"/>
 

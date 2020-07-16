@@ -20,6 +20,11 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.My
 
     private Context context;
     private ArrayList<Topic> dataSet;
+    private RvListener rvListener;
+
+    public interface RvListener{
+        public void openTopic(int position, String url);
+    }
 
     public void setTopics(ArrayList<Topic> dataSet){
         this.dataSet = dataSet;
@@ -41,6 +46,12 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.My
         this.dataSet = dataSet;
     }
 
+    public TopicsListAdapter(Context context, ArrayList<Topic> dataSet, RvListener rvListener){
+        this.context = context;
+        this.dataSet = dataSet;
+        this.rvListener = rvListener;
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,9 +62,16 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Topic topic = dataSet.get(position);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+        final Topic topic = dataSet.get(position);
         holder.topicTv.setText(topic.getTitle());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rvListener.openTopic(position, topic.getUrl());
+            }
+        });
     }
 
     @Override
