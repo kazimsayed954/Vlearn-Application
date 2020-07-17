@@ -1,7 +1,7 @@
 # Vlearn-Application
 >## Overview
 ---
-**Vlearn application** is a non-profit world-wide online learning platform founded by [The indie corp](https://www.theindiecorp.com/) in 2020. 
+**Vlearn application** is a non-profit world-wide online learning platform founded by [The Indie Corp](https://www.theindiecorp.com/) in 2020. 
 [_Vlearn application_](https://www.theindiecorp.com/vlearn.html) aims to provide a personalized learning experience to the students.
 
  ---
